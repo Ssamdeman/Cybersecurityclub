@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UMB Cybersecurity Club</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      /* NEW: Added for smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      :root {
+        --dark-navy: #0d182a;
+        --medium-navy: #1a324f;
+        --bright-blue: #2a6190;
+        --white: #ffffff;
+        --light-gray: #f5f7fa;
+        --highlight-red: #e74c3c;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-navy);
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        overflow-x: hidden;
+      }
+
+      /* Lock body scroll when modal is open */
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Navigation */
+      nav {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(13, 24, 42, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--dark-navy);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--medium-navy),
+          var(--bright-blue)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(42, 97, 144, 0.3);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 80px;
+        background: linear-gradient(
+          135deg,
+          rgba(13, 24, 42, 0.03) 0%,
+          transparent 100%
+        );
+        position: relative; /* Added for scroll indicator positioning */
+      }
+
+      .hero-content {
+        text-align: center;
+        animation: fadeInUp 0.8s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--dark-navy),
+          var(--bright-blue)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero .subtitle {
+        font-size: 1.25rem;
+        color: var(--medium-navy);
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      
+      /* UPDATED: Button container logic for better layout control */
+      .cta-buttons {
+        display: flex;
+        flex-direction: column; /* Main axis is vertical */
+        align-items: center; /* Center items horizontally */
+        gap: 1.5rem; /* Increased gap for better spacing */
+        justify-content: center;
+      }
+
+      .main-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap; /* Allows buttons to stack on small screens */
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative; /* For badge positioning */
+      }
+      
+      /* NEW: Larger class for primary buttons */
+      .btn-large {
+        padding: 1.1rem 2.5rem;
+        font-size: 1.1rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--bright-blue),
+          var(--medium-navy)
+        );
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(42, 97, 144, 0.4);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: var(--medium-navy);
+        border: 2px solid var(--bright-blue);
+      }
+
+      .btn-secondary:hover {
+        background: var(--bright-blue);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(42, 97, 144, 0.3);
+      }
+
+      /* UPDATED: Announcement Button Style for less prominence */
+      .btn-tertiary {
+        background: transparent;
+        color: var(--medium-navy);
+        border: 2px solid #cbd5e1; /* Lighter border color */
+        box-shadow: none;
+        opacity: 0.8;
+      }
+
+      .btn-tertiary:hover {
+        background: #f8fafc;
+        border-color: var(--bright-blue);
+        color: var(--bright-blue);
+        opacity: 1;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(13, 24, 42, 0.08);
+      }
+      
+      .new-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 22px;
+        height: 22px;
+        background-color: var(--highlight-red);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: bold;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+        animation: pulse 1.5s infinite;
+        display: none; /* Hidden by default */
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+        }
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+        }
+      }
+      
+      /* NEW: Scroll Down Indicator */
+      .scroll-down-indicator {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        cursor: pointer;
+      }
+      
+      .scroll-down-indicator svg {
+        width: 32px;
+        height: 32px;
+        fill: var(--medium-navy);
+        opacity: 0.5;
+      }
+      
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translate(-50%, 0);
+        }
+        40% {
+            transform: translate(-50%, -15px);
+        }
+        60% {
+            transform: translate(-50%, -7px);
+        }
+      }
+
+      /* Mission Vision Values */
+      .mvv-section {
+        padding: 5rem 0;
+        background: white;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
+      }
+
+      .mvv-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .mvv-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(13, 24, 42, 0.1);
+        transition: all 0.3s ease;
+        border-top: 4px solid var(--bright-blue);
+      }
+
+      .mvv-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 60px rgba(13, 24, 42, 0.15);
+      }
+
+      .mvv-card h3 {
+        color: var(--dark-navy);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .mvv-card p {
+        color: var(--medium-navy);
+        line-height: 1.8;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--dark-navy);
+        margin-bottom: 1rem;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: var(--medium-navy);
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      /* Values Section */
+      .values-section {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+      }
+
+      .values-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 3rem;
+      }
+
+      .value-chip {
+        background: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        box-shadow: 0 5px 20px rgba(13, 24, 42, 0.1);
+        font-weight: 600;
+        color: var(--medium-navy);
+        transition: all 0.3s ease;
+      }
+
+      .value-chip:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(42, 97, 144, 0.2);
+        background: linear-gradient(
+          135deg,
+          var(--bright-blue),
+          var(--medium-navy)
+        );
+        color: white;
+      }
+
+      /* Benefits Section */
+      .benefits-section {
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .benefit-card {
+        text-align: center;
+        padding: 2rem;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #f8f9fa 0%, white 100%);
+        box-shadow: 0 10px 30px rgba(13, 24, 42, 0.08);
+        transition: all 0.3s ease;
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(13, 24, 42, 0.15);
+      }
+
+      .benefit-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--bright-blue),
+          var(--medium-navy)
+        );
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 20px rgba(42, 97, 144, 0.3);
+      }
+
+      .benefit-card h4 {
+        color: var(--dark-navy);
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .benefit-card p {
+        color: var(--medium-navy);
+        opacity: 0.9;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        padding: 5rem 0;
+        background: linear-gradient(
+          135deg,
+          var(--dark-navy),
+          var(--medium-navy)
+        );
+        color: white;
+        text-align: center;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-section p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark-navy);
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+      }
+
+      footer p {
+        opacity: 0.7;
+      }
+
+      /* ANNOUNCEMENT MODAL STYLES */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(13, 24, 42, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .modal-overlay.visible {
+        opacity: 1;
+      }
+
+      .announcement-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        position: relative;
+        transform: scale(0.95);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .modal-overlay.visible .announcement-card {
+        transform: scale(1);
+      }
+
+      .announcement-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .announcement-title {
+        color: var(--dark-navy);
+        font-size: 1.8rem;
+      }
+
+      .announcement-badge {
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        color: white;
+      }
+
+      .announcement-badge.event {
+        background-color: var(--bright-blue);
+      }
+      .announcement-badge.important {
+        background-color: var(--highlight-red);
+      }
+      .announcement-badge.update {
+        background-color: #27ae60;
+      }
+
+      .announcement-meta {
+        color: var(--medium-navy);
+        opacity: 0.7;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .announcement-body {
+        color: var(--medium-navy);
+        line-height: 1.7;
+      }
+
+      .announcement-body p {
+        margin-bottom: 1rem;
+      }
+      .announcement-body p:last-child {
+        margin-bottom: 0;
+      }
+
+      .close-modal-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        font-size: 2.5rem;
+        color: var(--medium-navy);
+        opacity: 0.5;
+        cursor: pointer;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .close-modal-btn:hover {
+        opacity: 1;
+        transform: rotate(90deg);
+      }
+      
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero .subtitle {
+          font-size: 1rem;
+        }
+        
+        /* Ensures buttons in main actions also stack on mobile */
+        .main-actions {
+            flex-direction: column;
+        }
+
+        .btn, .btn-large {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .mvv-grid,
+        .benefits-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+        
+        .announcement-title {
+          font-size: 1.5rem;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.8s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <div class="logo">
+          <div class="logo-icon">UMB</div>
+          <span>CYBERSECURITY</span>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>UMass Boston Cyber Club</h1>
+          <p class="subtitle">Build. Defend. Innovate.</p>
+          <p
+            style="
+              max-width: 600px;
+              margin: 0 auto 2rem;
+              color: var(--medium-navy);
+              opacity: 0.9;
+            "
+          >
+            Join the next generation of cybersecurity leaders. Gain practical
+            skills through hands-on CTF competitions, collaborative projects,
+            and real-world tool training.
+          </p>
+          <div class="cta-buttons">
+            <div class="main-actions">
+              <a href="#" class="btn btn-primary btn-large" onclick="showSignup()"
+                >Join the Club</a
+              >
+              <a href="#" class="btn btn-secondary btn-large" onclick="joinDiscord()"
+                >Discord Community</a
+              >
+            </div>
+            <a href="#" class="btn btn-tertiary" onclick="showAnnouncement(event)">
+              Latest Announcement
+              <span class="new-badge" id="announcementBadge">NEW</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="#our-purpose" class="scroll-down-indicator">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,15.707L6.646,10.354,8.061,8.939,12,12.879l3.939-3.94,1.415,1.415Z"></path></svg>
+      </a>
+    </section>
+
+    <section class="mvv-section" id="our-purpose">
+      <div class="container">
+        <h2 class="section-title">Our Purpose</h2>
+        <p class="section-subtitle">What drives us forward</p>
+        <div class="mvv-grid">
+          <div class="mvv-card">
+            <h3>🎯 Mission</h3>
+            <p>
+              Build practical cybersecurity skills through hands-on CTF
+              competitions, collaborative projects, and real-world tool
+              training.
+            </p>
+          </div>
+          <div class="mvv-card">
+            <h3>🚀 Vision</h3>
+            <p>
+              To be the platform for UMass Boston's next generation of
+              cybersecurity leaders, defenders, and innovators.
+            </p>
+          </div>
+          <div class="mvv-card">
+            <h3>💡 Approach</h3>
+            <p>
+              Learn by doing. Break things. Fix them. Repeat. Every challenge is
+              an opportunity to grow.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="values-section">
+      <div class="container">
+        <h2 class="section-title">Core Values</h2>
+        <p class="section-subtitle">How we learn and grow together</p>
+        <div class="values-list">
+          <div class="value-chip">🔄 Trial and Error</div>
+          <div class="value-chip">🔍 Curiosity and Persistence</div>
+          <div class="value-chip">🛡️ Ethical Learning</div>
+          <div class="value-chip">🎮 Having Fun</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits-section">
+      <div class="container">
+        <h2 class="section-title">Level Up Your Career</h2>
+        <p class="section-subtitle">Real skills for real opportunities</p>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">🏆</div>
+            <h4>CTF Experience</h4>
+            <p>
+              Network traffic analysis, home labs, and competition experience
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🐍</div>
+            <h4>Modern Tech Stack</h4>
+            <p>Python automation, AI integration, and LLM applications</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">💼</div>
+            <h4>Portfolio Projects</h4>
+            <p>
+              Build impressive projects that showcase your skills to employers
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">👥</div>
+            <h4>Leadership & Team</h4>
+            <p>
+              Develop leadership skills and collaborate with passionate peers
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="signup">
+      <div class="container">
+        <h2>Ready to Start Your Cybersecurity Journey?</h2>
+        <p>Join a community of hackers, defenders, and innovators</p>
+        <div class="cta-buttons">
+            <div class="main-actions">
+              <button
+                class="btn btn-primary btn-large"
+                style="background: white; color: var(--dark-navy)"
+                onclick="showSignup()"
+              >
+                Sign Up Now
+              </button>
+              <a
+                href="#"
+                class="btn btn-secondary btn-large"
+                style="
+                  background: transparent;
+                  border: 2px solid white;
+                  color: white;
+                "
+                onclick="joinDiscord()"
+                >Join Discord</a
+              >
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 UMass Boston Cybersecurity Club. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div
+      id="signupModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          max-width: 500px;
+          width: 90%;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <h2 style="color: var(--dark-navy); margin-bottom: 1rem">
+          Join UMB Cyber Club
+        </h2>
+        <p style="color: var(--medium-navy); margin-bottom: 2rem">
+          Enter your details to get started
+        </p>
+        <input
+          type="text"
+          placeholder="Full Name"
+          style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+          "
+        />
+        <input
+          type="email"
+          placeholder="UMB Email (@umb.edu)"
+          style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+          "
+        />
+        <input
+          type="text"
+          placeholder="Major/Program"
+          style="
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+          "
+        />
+        <div style="display: flex; gap: 1rem">
+          <button
+            onclick="submitSignup()"
+            class="btn btn-primary"
+            style="width: 100%"
+          >
+            Submit
+          </button>
+          <button
+            onclick="closeSignup()"
+            class="btn btn-secondary"
+            style="width: 100%"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-overlay" id="announcementModal" onclick="closeAnnouncement()">
+      <div class="announcement-card" onclick="event.stopPropagation()">
+        <button class="close-modal-btn" onclick="closeAnnouncement()">&times;</button>
+        <div id="announcementContent">
+          </div>
+      </div>
+    </div>
+
+    <script>
+      // =================================================================
+      // ANNOUNCEMENT CONFIGURATION - EDIT THIS OBJECT TO UPDATE
+      // =================================================================
+      const announcementConfig = {
+        isNew: true, // Set to true to show the 'NEW' badge on the button
+        type: 'Event', // 'Event', 'Important', 'Update', or leave blank ''
+        title: 'Fall Kick-Off Meeting!',
+        date: 'September 12, 2025',
+        content: `
+          <p>Get ready to dive into the world of cybersecurity! Our first official meeting of the Fall 2025 semester is happening this week.</p>
+          <p>We'll be introducing the club leadership, outlining our plans for the semester (including CTF competitions and guest speakers), and holding a live demo of a basic network analysis tool. Whether you're a seasoned pro or just cyber-curious, this is the perfect place to start. Pizza and drinks will be provided!</p>
+          <p><strong>When:</strong> Friday, September 12th @ 5:00 PM<br><strong>Where:</strong> Science Center, Room S-1-007</p>
+        `
+      };
+      // =================================================================
+      // END OF CONFIGURATION
+      // =================================================================
+
+
+      // --- Sign Up Modal Logic ---
+      function showSignup() {
+        document.getElementById("signupModal").style.display = "flex";
+        document.body.classList.add('modal-open');
+      }
+
+      function closeSignup() {
+        document.getElementById("signupModal").style.display = "none";
+        document.body.classList.remove('modal-open');
+      }
+
+      function submitSignup() {
+        alert(
+          "Welcome to Cyber Club! Check your email for next steps and Discord invite."
+        );
+        closeSignup();
+      }
+
+      function joinDiscord() {
+        alert("Our official Discord server is now live! Check your welcome email for the invite link after signing up.");
+      }
+
+      // --- Announcement Modal Logic ---
+      const announcementModal = document.getElementById('announcementModal');
+
+      function showAnnouncement(event) {
+        event.preventDefault(); // Prevents the '#' from being added to the URL
+        announcementModal.style.display = 'flex';
+        // Use a timeout to allow the display property to apply before adding the class for the transition
+        setTimeout(() => {
+          announcementModal.classList.add('visible');
+        }, 10);
+        document.body.classList.add('modal-open');
+      }
+
+      function closeAnnouncement() {
+        announcementModal.classList.remove('visible');
+         // Wait for the transition to finish before hiding the element
+        setTimeout(() => {
+          announcementModal.style.display = 'none';
+        }, 300);
+        document.body.classList.remove('modal-open');
+      }
+
+      // Populate announcement content on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        const contentContainer = document.getElementById('announcementContent');
+        const badgeElement = document.getElementById('announcementBadge');
+
+        // Show the 'NEW' badge if configured
+        if (announcementConfig.isNew) {
+          badgeElement.style.display = 'flex';
+        }
+        
+        let typeBadge = '';
+        if (announcementConfig.type) {
+            typeBadge = `<span class="announcement-badge ${announcementConfig.type.toLowerCase()}">${announcementConfig.type}</span>`;
+        }
+
+        contentContainer.innerHTML = `
+          <div class="announcement-header">
+            ${typeBadge}
+            <h2 class="announcement-title">${announcementConfig.title}</h2>
+          </div>
+          <p class="announcement-meta">Posted: ${announcementConfig.date}</p>
+          <div class="announcement-body">
+            ${announcementConfig.content}
+          </div>
+        `;
+
+        // Intersection Observer for animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.animationDelay = "0.1s";
+              entry.target.classList.add("fade-in");
+            }
+          });
+        }, observerOptions);
+
+        document
+          .querySelectorAll(".mvv-card, .benefit-card, .value-chip")
+          .forEach((el) => {
+            observer.observe(el);
+          });
+      });
+    </script>
+  </body>
+</html>
