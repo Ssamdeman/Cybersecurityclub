@@ -55,8 +55,20 @@
         z-index: 1000;
         box-shadow: 0 2px 20px rgba(13, 24, 42, 0.1);
       }
+      .nav-logo {
+        width: 90px;
+        height: 90px;
+
+      }
+      .nav-logo-text {
+        font-size: 1.5rem;
+        font-weight: normal;
+        color: var(--dark-navy);
+      }
+
 
       .nav-container {
+
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -64,7 +76,7 @@
       }
 
       .logo {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
         font-weight: bold;
         color: var(--dark-navy);
         display: flex;
@@ -118,6 +130,16 @@
           opacity: 1;
           transform: translateY(0);
         }
+      }
+
+      .hero-logo {
+        max-width: 950px; /* Adjust as needed */
+        width: 80%; /* Ensure responsiveness */
+        height: auto;
+        margin: 0 auto 2rem; /* Center and add bottom margin */
+        margin-bottom: -10.5rem;
+        display: block; /* Ensures margin auto works */
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15)); /* Add a subtle shadow to make it pop */
       }
 
       .hero h1 {
@@ -569,10 +591,22 @@
       }
       
 
+      /* Tablet Responsive */
+      @media (max-width: 1024px) and (min-width: 769px) {
+        .hero-logo {
+          max-width: 500px; /* Medium size for tablets */
+          margin-bottom: -5rem; /* Reduced negative margin for tablets */
+        }
+      }
+
       /* Mobile Responsive */
       @media (max-width: 768px) {
         .nav-container {
           padding: 1rem;
+        }
+        .hero-logo {
+          max-width: 350px; /* Smaller size for mobile */
+          margin-bottom: -3rem; /* Further reduced negative margin for mobile */
         }
 
         .hero h1 {
@@ -582,6 +616,17 @@
         .hero .subtitle {
           font-size: 1rem;
         }
+
+        .scroll-down-indicator {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        cursor: pointer;
+      }
+
+       
         
         /* Ensures buttons in main actions also stack on mobile */
         .main-actions {
@@ -623,18 +668,19 @@
     </style>
   </head>
   <body>
-    <nav>
+    <!-- <nav>
       <div class="nav-container">
         <div class="logo">
-          <div class="logo-icon">UMB</div>
-          <span>CYBERSECURITY</span>
+          <img src="/assets/Main_logo_transparent.png" alt="UMB Cybersecurity Logo" class="nav-logo">
+          <span class="nav-logo-text"> Cyber Club </span>
         </div>
       </div>
-    </nav>
+    </nav> -->
 
     <section class="hero">
       <div class="container">
         <div class="hero-content">
+          <img src="/assets/Main_logo_transparent.png" alt="UMB Cybersecurity Logo" class="hero-logo">
           <h1>UMass Boston Cyber Club</h1>
           <p class="subtitle">Build. Defend. Innovate.</p>
           <p
@@ -651,12 +697,8 @@
           </p>
           <div class="cta-buttons">
             <div class="main-actions">
-              <a href="https://umb.campuslabs.com/engage/organization/_" class="btn btn-primary btn-large""
-                >Join the Club</a
-              >
-              <a href="#" class="btn btn-secondary btn-large" onclick="joinDiscord()"
-                >Discord Community</a
-              >
+              <a href="https://umb.campuslabs.com/engage/organization/_" class="btn btn-primary btn-large">Join the Club</a>
+              <a href="https://discord.gg/X97qwg3w " class="btn btn-secondary btn-large" >Discord Community</a>
             </div>
             <a href="#" class="btn btn-tertiary" onclick="showAnnouncement(event)">
               Latest Announcement
@@ -755,23 +797,21 @@
         <p>Join a community of hackers, defenders, and innovators</p>
         <div class="cta-buttons">
             <div class="main-actions">
-              <button
+              <a 
+                href="https://umb.campuslabs.com/engage/organization/_" 
                 class="btn btn-primary btn-large"
                 style="background: white; color: var(--dark-navy)"
-                href ="https://umb.campuslabs.com/engage/organization/_"
-    
               >
                 Sign Up Now
-              </button>
+              </a>
               <a
-                href="#"
+                href="https://discord.gg/X97qwg3w"
                 class="btn btn-secondary btn-large"
                 style="
                   background: transparent;
                   border: 2px solid white;
                   color: white;
                 "
-                onclick="joinDiscord()"
                 >Join Discord</a
               >
             </div>
